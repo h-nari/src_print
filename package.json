@@ -1,0 +1,33 @@
+{
+  "name": "src_print",
+  "version": "1.0.0",
+  "description": "test pdf converter to print source programs",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h-nari/src_print.git"
+  },
+  "keywords": [
+    "electron",
+    "text",
+    "to",
+    "pdf"
+  ],
+  "author": "Narimatsu Hiroshi",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/h-nari/src_print/issues"
+  },
+  "homepage": "https://github.com/h-nari/src_print#readme",
+  "devDependencies": {
+    "electron": "^5.0.1",
+    "ts-loader": "^6.0.1",
+    "typescript": "^3.4.5",
+    "webpack": "^4.32.1",
+    "webpack-cli": "^3.3.2"
+  }
+}

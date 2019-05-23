@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "echoCommand": true,
+    "tasks": [
+        {
+            "label": "build_ts",
+            "type": "shell",
+            "command": "./node_modules/.bin/webpack",
+            "args": [
+                "--dispaly-modules",
+                "--progress",
+                "--display-error-details"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+    ],
+}
