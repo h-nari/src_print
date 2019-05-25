@@ -1,6 +1,6 @@
 *.map
 dist/
-
+srcPrint-win32-x64/
 
 # Logs
 logs

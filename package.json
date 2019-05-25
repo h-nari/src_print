@@ -5,6 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
+    "package": "./node_modules/.bin/electron-packager . srcPrint --platform=win32 --arch=x64 --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,9 +26,15 @@
   "homepage": "https://github.com/h-nari/src_print#readme",
   "devDependencies": {
     "electron": "^5.0.1",
+    "electron-packager": "^13.1.1",
     "ts-loader": "^6.0.1",
     "typescript": "^3.4.5",
+    "typings": "^2.1.1",
     "webpack": "^4.32.1",
     "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.3.29",
+    "jquery": "^3.4.1"
   }
 }

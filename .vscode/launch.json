@@ -8,10 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\dist\\main.js",
+ //           "program": "${workspaceFolder}\\dist\\main.js",
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
-                "."
+                ".", "${workspaceFolder}\\src\\rederer\\app.ts"
             ],
             "env": {
                 "NODE_ENV" : "debug"

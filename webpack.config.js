@@ -32,9 +32,9 @@ var main = {
 var renderer = {
     mode: 'development',
     target: 'electron-renderer',
-    entry: path.join(__dirname, 'src', 'renderer', 'index'),
+    entry: path.join(__dirname, 'src', 'renderer', 'app'),
     output: {
-        filename: 'index.js',
+        filename: 'app.js',
         path: path.resolve(__dirname, 'dist', 'scripts')
     },
     resolve: {
@@ -48,6 +48,7 @@ var renderer = {
             ],
             include: [
                 path.resolve(__dirname, 'src'),
+                path.resolve(__dirname, 'src', 'scripts'),
                 path.resolve(__dirname, 'node_modules')
             ] 
         }]
