@@ -11,7 +11,7 @@
  //           "program": "${workspaceFolder}\\dist\\main.js",
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
-                ".", "${workspaceFolder}\\src\\renderer\\app.ts"
+                ".", "${workspaceFolder}\\src\\renderer\\text2html.ts"
             ],
             "env": {
                 "NODE_ENV" : "debug"

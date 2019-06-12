@@ -1,6 +1,7 @@
 import { BrowserWindow, app, App, dialog, ipcMain } from 'electron';
 import process from 'process';
 import setAppMenu from "./setAppMenu";
+import fs from 'fs';
 
 class SrcPrintApp {
     private mainWindow: BrowserWindow | null = null;
@@ -75,6 +76,22 @@ class SrcPrintApp {
             },
             appQuit: () => {
                 this.app.quit();
+            },
+            exportPDF: () => {
+                if (this.mainWindow)
+                    this.mainWindow.webContents.printToPDF({}, (error, data) => {
+                        if (error) {
+                            console.log('pdf error:', error);
+                        } else {
+                            console.log('pdf succeeded:');
+                            fs.writeFile('c:/00tmp/tmp.pdf', data, err => {
+                                if (err)
+                                    console.log("writeFile error:", err);
+                                else
+                                    console.log("writeFile succeeded");
+                            });
+                        }
+                    });
             }
         });
     }
