@@ -11,12 +11,14 @@
  //           "program": "${workspaceFolder}\\dist\\main.js",
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
-                ".", "${workspaceFolder}\\src\\renderer\\text2html.ts"
+                ".", 
+                // "${workspaceFolder}\\src\\renderer\\text2html.ts",
+                "n:\\01proj\\blog3\\udauda_blog3\\public\\js\\editPage.js"
             ],
             "env": {
                 "NODE_ENV" : "debug"
             },
-            "preLaunchTask": "build_ts",
+//            "preLaunchTask": "build_ts",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

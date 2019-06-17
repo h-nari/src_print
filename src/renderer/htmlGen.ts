@@ -3,7 +3,7 @@ interface AttrObj {
 }
 type genArg = [string, ...any[]];
 
-export function htmlGen(tag: string, ...args: any): string {
+export default function htmlGen(tag: string, ...args: any): string {
     try {
         let name: string = tag;
         let attr: AttrObj = {};

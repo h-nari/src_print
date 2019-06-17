@@ -2,23 +2,43 @@ import $ from "jquery";
 import { ipcRenderer } from "electron";
 import process from "process";
 import { files2html } from "./text2html";
+import TypeSetter from "./typesetter";
+
+var ts = new TypeSetter();
 
 $(function () {
     $("#contents").html("jQuery!!");
     ipcRenderer.send('get_arg');
+
+    document.ondragover = document.ondragleave = document.ondrop = function (e) {
+        if (e.type == 'drop' && e.dataTransfer) {
+            let files = e.dataTransfer.files;
+            for (let i = 0; i < files.length; i++) {
+                let f = files.item(i);
+                if (f != null)
+                    ts.addFile(f.path);
+            }
+            ts.typeset();
+            $("#contents").html(ts.getHtml());
+        }
+        e.preventDefault();
+    }
 });
 
-ipcRenderer.on('openFile', (event, arg) => {
-    let html = files2html(arg);
-    $("#contents").html(html);
+ipcRenderer.on('openFile', (event, arg: string[]) => {
+    for (let f of arg)
+        ts.addFile(f);
+    ts.typeset();
+    $("#contents").html(ts.getHtml());
 });
 
 ipcRenderer.on('print', (event, arg) => {
     console.log('print:', arg);
 });
 
-ipcRenderer.on('arg', (event, arg) => {
-    console.log('arg:', arg);
-    let html: string = files2html(arg);
-    $("#contents").html(html);
+ipcRenderer.on('arg', (event, arg: string[]) => {
+    for (let f of arg)
+        ts.addFile(f);
+    ts.typeset();
+    $("#contents").html(ts.getHtml());
 });

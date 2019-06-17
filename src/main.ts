@@ -79,17 +79,40 @@ class SrcPrintApp {
             },
             exportPDF: () => {
                 if (this.mainWindow)
-                    this.mainWindow.webContents.printToPDF({}, (error, data) => {
+                    this.mainWindow.webContents.printToPDF({
+                        marginsType: 1,
+                        pageSize: 'A4',
+                        printBackground: false,
+                        printSelectionOnly: false,
+                        landscape: false
+                    }, (error, data) => {
                         if (error) {
                             console.log('pdf error:', error);
                         } else {
                             console.log('pdf succeeded:');
-                            fs.writeFile('c:/00tmp/tmp.pdf', data, err => {
-                                if (err)
-                                    console.log("writeFile error:", err);
-                                else
-                                    console.log("writeFile succeeded");
+                            let filename = dialog.showSaveDialog({
+                                title: 'exportPDF',
                             });
+                            if (filename) {
+                                fs.writeFile(filename, data, err => {
+                                    if (err) {
+                                        console.log("writeFile error:", err);
+                                        dialog.showMessageBox({
+                                            type: 'error',
+                                            title: 'exportPDF',
+                                            message: 'exportPDF error',
+                                            detail: err.message
+                                        });
+                                    } else {
+                                        console.log("writeFile succeeded");
+                                        dialog.showMessageBox({
+                                            type: 'info',
+                                            title: 'exportPDF',
+                                            message: 'exportPDF done.'
+                                        });
+                                    }
+                                });
+                            }
                         }
                     });
             }

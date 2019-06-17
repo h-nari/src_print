@@ -1,5 +1,87 @@
-div.src-line {
-    color: #080;
+div.page {
+    width: 210mm;
+    height: 297mm;
+    border: solid 0.1px #f0f0f0;
+    overflow: hidden;
+    page-break-after: always;
+}
+
+div.header {
+    height: 10mm;
+    margin-top: 10mm;
+    padding-right: 20mm;
+    padding-left: 20mm;
+    display: table;
+}
+
+div.header div {
+    vertical-align: bottom;
+    display: table-cell;
+    width: 90mm;
+}
+
+div.header div.datetime {
+    flex: 1;
+    font-size: small;
+}
+
+div.header div.filename {
+    flex: 1;
+    font-size: xx-large;
+    font-weight: bolder;
+    font-style: oblique;
+    text-align: right;
+    color: lightgray;
+    vertical-align: bottom;
+}
+
+div.main {
+    height: 247mm;
+    margin-top: 1mm;
+    border-top: solid 3px lightgray;
+    padding-top: 2mm;
+    padding-bottom: 0mm;
+    border-bottom: solid 3px lightgray;
+    margin-bottom: 0mm;
+    margin-left: 20mm;
+    margin-right: 20mm;
+}
+
+div.line {
+    line-height: 75%;
+}
+
+.src-line {
+    color: #000;
     font-family: monospace;
     white-space: pre;
+    display: inline-block;
+}
+
+.lineNo {
+    width: 10mm;
+    text-align: right;
+    color: green;
+    font-size: xx-small;
+    margin-right: 2mm;
+    display: inline-block;
+}
+
+div.footer {
+    display: flex;
+    margin-right: 20mm;
+    margin-left: 20mm;
+}
+
+div.footer .fullpath {
+    font-size: small;
+    flex: 4;
+}
+
+div.footer div.pageNo {
+    text-align: right;
+    font-size: small;
+    font-weight: bold;
+    font-style: oblique;
+    flex: 1;
 }

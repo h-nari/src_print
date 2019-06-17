@@ -1,5 +1,5 @@
 import fs from "fs";
-import { htmlGen } from "./htmlGen";
+import  htmlGen  from "./htmlGen";
 
 export function files2html(files: string[]): string {
     let s: string = "";
@@ -29,10 +29,33 @@ function line2html(line: string): string {
         if (c == "\t") {
             do col++;
             while (col % tab_width);
+            continue;
         } else {
             s += c;
-            col++;
+        }
+        col++;
+    }
+    return htmlGen('div', {class : 'src-line'}, escape_html(s));
+}
+
+export function escape_html( str : string ) : string {
+    let s = "";
+    for(let c of str){
+        if(c == '<') {
+            s += "&lt;"
+        } else if(c == '>') {
+            s += "&gt;"
+        } else if(c == '&') {
+            s += "&amp;"
+        } else if(c == '"') {
+            s += "&quot;"
+        } else if(c == "'") {
+            s += "&#39;"
+        } else if(c == "`") {
+            s += "&#60;"
+        } else {
+            s += c;
         }
     }
-    return htmlGen('div', {class : 'src-line'}, s);
+    return s;
 }
