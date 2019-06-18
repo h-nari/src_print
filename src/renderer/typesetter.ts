@@ -85,7 +85,7 @@ export default class TypeSetter {
             let untab: string = this.untabify(line);
             let len = untab.length;
             let cpl = this.setting.column_per_line;
-            for (let i = 0; i < len; i += cpl) {
+            for (let i = 0; i <= len; i += cpl) {
                 wrapped.push({
                     bFirstLine: i == 0,
                     lineNo: lineNo,
@@ -94,6 +94,7 @@ export default class TypeSetter {
             }
             lineNo++;
         }
+        console.log(lineNo);
 
         // wrapped => pages
 
