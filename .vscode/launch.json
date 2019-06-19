@@ -13,7 +13,8 @@
             "args": [
                 ".", 
                 // "${workspaceFolder}\\src\\renderer\\text2html.ts",
-                "n:\\01proj\\blog3\\udauda_blog3\\public\\js\\editPage.js"
+                // "n:\\01proj\\blog3\\udauda_blog3\\public\\js\\editPage.js"
+                "n:\\01proj\\blog3\\udauda_blog3\\lib\\UdaudaBlog3\\Controller\\Access.pm"
             ],
             "env": {
                 "NODE_ENV" : "debug"

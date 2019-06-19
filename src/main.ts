@@ -1,4 +1,4 @@
-import { BrowserWindow, app, App, dialog, ipcMain } from 'electron';
+import { BrowserWindow, app, App, dialog, ipcMain, session } from 'electron';
 import process from 'process';
 import setAppMenu from "./setAppMenu";
 import fs from 'fs';
@@ -26,6 +26,8 @@ class SrcPrintApp {
     }
 
     private onWindowAllClosed() {
+        if (session.defaultSession && session.defaultSession.clearCache)
+            session.defaultSession.clearCache(() => { });
         this.app.quit();
     }
 

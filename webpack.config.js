@@ -2,7 +2,7 @@ const path = require('path');
 
 var main = {
     mode: 'development',
-    target: 'electron-main' ,
+    target: 'electron-main',
     entry: path.join(__dirname, 'src', 'main'),
     output: {
         filename: 'main.js',
@@ -50,10 +50,10 @@ var renderer = {
                 path.resolve(__dirname, 'src'),
                 path.resolve(__dirname, 'src', 'scripts'),
                 path.resolve(__dirname, 'node_modules')
-            ] 
+            ]
         }]
     },
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 }
 
 module.exports = [

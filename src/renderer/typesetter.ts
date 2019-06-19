@@ -94,7 +94,7 @@ export default class TypeSetter {
             }
             lineNo++;
         }
-        console.log(lineNo);
+        console.log("lineno!!!:" ,lineNo);
 
         // wrapped => pages
 
