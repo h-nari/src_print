@@ -5,16 +5,17 @@ function setAppMenu(options: any) {
         {
             label: "File",
             submenu: [
-                { label: 'Open File', click: () => { options.openFile() } },
-                { label: 'Export PDF', click: () => { options.exportPDF() } },
+                { label: 'Open File',   click: () => { options.openFile(); } },
+                { label: 'Print',       click: () => { options.print(); } },
+                { label: 'Export PDF',  click: () => { options.exportPDF(); } },
                 { type: 'separator' },
-                { label: 'Quit', click: () => { options.appQuit() } }
+                { label: 'Quit',        click: () => { options.appQuit(); } }
             ]
         },
         {
             label: "View",
             submenu: [
-                { role: 'reload'},
+                { role: 'reload' },
                 { role: 'toggledevtools' }
             ]
         }

@@ -117,6 +117,10 @@ class SrcPrintApp {
                             }
                         }
                     });
+            },
+            print: () => {
+                if (this.mainWindow)
+                    this.mainWindow.webContents.print();
             }
         });
     }
