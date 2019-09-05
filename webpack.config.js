@@ -48,7 +48,34 @@ var renderer = {
             ],
             include: [
                 path.resolve(__dirname, 'src'),
-                path.resolve(__dirname, 'src', 'scripts'),
+                path.resolve(__dirname, 'src', 'renderer'),
+                path.resolve(__dirname, 'node_modules')
+            ]
+        }]
+    },
+    devtool: 'inline-source-map'
+}
+
+var pdf = {
+    mode: 'development',
+    target: 'electron-renderer',
+    entry: path.join(__dirname, 'src', 'renderer', 'pdf'),
+    output: {
+        filename: 'pdf.js',
+        path: path.resolve(__dirname, 'dist', 'scripts')
+    },
+    resolve: {
+        extensions: ['.json', '.js', '.jsx', '.css', '.ts', '.tsx']
+    },
+    module: {
+        rules: [{
+            test: /\.(tsx|ts)$/,
+            use: [
+                'ts-loader'
+            ],
+            include: [
+                path.resolve(__dirname, 'src'),
+                path.resolve(__dirname, 'src', 'renderer'),
                 path.resolve(__dirname, 'node_modules')
             ]
         }]
@@ -57,5 +84,6 @@ var renderer = {
 }
 
 module.exports = [
-    main, renderer
+    main, pdf, renderer
+
 ];

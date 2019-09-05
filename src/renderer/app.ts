@@ -1,7 +1,5 @@
 import $ from "jquery";
 import { ipcRenderer } from "electron";
-import process from "process";
-import { files2html } from "./text2html";
 import TypeSetter from "./typesetter";
 
 var ts = new TypeSetter();
@@ -32,8 +30,9 @@ ipcRenderer.on('openFile', (event, arg: string[]) => {
     $("#contents").html(ts.getHtml());
 });
 
-ipcRenderer.on('print', (event, arg) => {
-    console.log('print:', arg);
+ipcRenderer.on('html', (event,arg)=>{
+    console.log('html');
+    event.sender.send('html',ts.getHtml());
 });
 
 ipcRenderer.on('arg', (event, arg: string[]) => {

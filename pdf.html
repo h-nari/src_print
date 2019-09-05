@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';style-src 'self' 'unsafe-inline' 'unsafe-eval'">
+        <title>SrcPrint(PDF)</title>
+        <link rel="stylesheet" href="./srcPrint.css">
+        <style type="text/css">
+        #content { height: 100%}
+        </style>
+    </head>
+    <body>
+        <div class="window">
+            <div id="content" class="window-content">content</div>
+        </div>
+        <script src="dist/scripts/pdf.js"></script>
+    </body>
+</html>

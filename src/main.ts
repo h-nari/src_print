@@ -1,7 +1,8 @@
 import { BrowserWindow, app, App, dialog, ipcMain, session } from 'electron';
 import process from 'process';
-import setAppMenu from "./setAppMenu";
 import fs from 'fs';
+import setAppMenu from "./setAppMenu";
+import PDFWindow from "./createPDFWindow";
 
 class SrcPrintApp {
     private mainWindow: BrowserWindow | null = null;
@@ -79,48 +80,9 @@ class SrcPrintApp {
             appQuit: () => {
                 this.app.quit();
             },
-            exportPDF: () => {
-                if (this.mainWindow)
-                    this.mainWindow.webContents.printToPDF({
-                        marginsType: 1,
-                        pageSize: 'A4',
-                        printBackground: false,
-                        printSelectionOnly: false,
-                        landscape: false
-                    }, (error, data) => {
-                        if (error) {
-                            console.log('pdf error:', error);
-                        } else {
-                            console.log('pdf succeeded:');
-                            let filename = dialog.showSaveDialog({
-                                title: 'exportPDF',
-                            });
-                            if (filename) {
-                                fs.writeFile(filename, data, err => {
-                                    if (err) {
-                                        console.log("writeFile error:", err);
-                                        dialog.showMessageBox({
-                                            type: 'error',
-                                            title: 'exportPDF',
-                                            message: 'exportPDF error',
-                                            detail: err.message
-                                        });
-                                    } else {
-                                        console.log("writeFile succeeded");
-                                        dialog.showMessageBox({
-                                            type: 'info',
-                                            title: 'exportPDF',
-                                            message: 'exportPDF done.'
-                                        });
-                                    }
-                                });
-                            }
-                        }
-                    });
-            },
-            print: () => {
-                if (this.mainWindow)
-                    this.mainWindow.webContents.print();
+            print: async () => {
+                let pdfWin: PDFWindow = await this.preparePdfWin();
+                pdfWin.print();
             }
         });
     }
@@ -135,8 +97,26 @@ class SrcPrintApp {
             this.create();
         }
     }
-}
 
+    private preparePdfWin(): Promise<PDFWindow> {
+        return new Promise((resolve, reject) => {
+            var pdfWin: PDFWindow | null = null;
+            ipcMain.once("html", (event, html: string) => {
+                pdfWin = new PDFWindow(html);
+            });
+
+            if (this.mainWindow)
+                this.mainWindow.webContents.send("html");
+            else reject("mainWindow null");
+            ipcMain.once("pdfWinReady", (event, arg) => {
+                if (pdfWin)
+                    resolve(pdfWin);
+                else
+                    reject("pdfWin null");
+            });
+        });
+    }
+}
 
 const MyApp: SrcPrintApp = new SrcPrintApp(app);
 

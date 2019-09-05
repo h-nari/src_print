@@ -94,9 +94,7 @@ export default class TypeSetter {
             }
             lineNo++;
         }
-        console.log("lineno!!!:" ,lineNo);
 
-        // wrapped => pages
 
         let lpp = this.setting.line_per_page;
         for (let i = 0; i < wrapped.length; i += lpp) {

@@ -8,12 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
- //           "program": "${workspaceFolder}\\dist\\main.js",
+            "program": "${workspaceFolder}\\dist\\main.js",
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
                 ".", 
-                // "${workspaceFolder}\\src\\renderer\\text2html.ts",
-                // "n:\\01proj\\blog3\\udauda_blog3\\public\\js\\editPage.js"
                 "n:\\01proj\\blog3\\udauda_blog3\\lib\\UdaudaBlog3\\Controller\\Access.pm"
             ],
             "env": {
@@ -22,7 +20,9 @@
 //            "preLaunchTask": "build_ts",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
-            ]
+            ],
+            "console" : "integratedTerminal",
+            "sourceMaps": true
         }
     ]
 }
