@@ -53,12 +53,7 @@ class SrcPrintApp {
         }
         this.mainWindow = new BrowserWindow(opt);
         this.mainWindow.loadURL(this.mainURL).then(() => {
-            for (let f of this.argv) {
-                this.ts.addFile(f);
-            }
-            this.ts.typeset();
-            if (this.mainWindow)
-                this.mainWindow.webContents.send('html', this.ts.getHtml());
+            this.addFiles(this.argv);
         });
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
@@ -75,12 +70,12 @@ class SrcPrintApp {
                         properties: ['openFile', 'multiSelections'],
                         filters: [
                             { name: 'All Files', extensions: ["*"] },
-                            { name: 'Text', extensions: ["txt"] },
+                            { name: 'Text', extensions: ["txt", "csv", "md", "json", "html"] },
                             { name: 'Source Files', extensions: ["c", "cpp", "h", "js", "ts"] }
                         ]
                     });
                 if (files && this.mainWindow) {
-                    this.mainWindow.webContents.send("openFile", files);
+                    this.addFiles(files);
                 }
             },
             appQuit: () => {
@@ -119,13 +114,17 @@ class SrcPrintApp {
         if (this.mainWindow)
             this.mainWindow.webContents.send('html', this.ts.getHtml());
     }
+
+    public addFiles(files: string[]) {
+        for (let file of files)
+            this.ts.addFile(file);
+        this.ts.typeset();
+        if (this.mainWindow)
+            this.mainWindow.webContents.send('html', this.ts.getHtml());
+    }
 }
 
 const MyApp: SrcPrintApp = new SrcPrintApp(app);
-
-ipcMain.on('get_arg', (event, arg) => {
-    event.sender.send('arg', MyApp.argv);
-})
 
 ipcMain.on('addFile', (event, arg: string) => {
     MyApp.addFile(arg);
