@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\dist\\main.js",
+            "program": "${workspaceFolder}\\dist\\main\\app.js",
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
                 ".", 

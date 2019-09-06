@@ -3,11 +3,13 @@ import process from 'process';
 import fs from 'fs';
 import setAppMenu from "./setAppMenu";
 import PDFWindow from "./createPDFWindow";
+import TypeSetter from "./typesetter";
 
 class SrcPrintApp {
     private mainWindow: BrowserWindow | null = null;
     private app: App;
-    private mainURL: string = `file://${__dirname}/../index.html`
+    private mainURL: string = `file://${__dirname}/../../index.html`
+    private ts: TypeSetter = new TypeSetter();
     public argv: string[];
 
     constructor(app: App) {
@@ -33,6 +35,7 @@ class SrcPrintApp {
     }
 
     private create() {
+        console.log('create');
         let opt: any = {
             width: 800,
             height: 1000,
@@ -49,11 +52,14 @@ class SrcPrintApp {
             opt.y = 5;
         }
         this.mainWindow = new BrowserWindow(opt);
-        this.mainWindow.webContents.send('print', this.mainURL);
-        this.mainWindow.webContents.send('print', process.argv);
-
-        this.mainWindow.loadURL(this.mainURL);
-
+        this.mainWindow.loadURL(this.mainURL).then(() => {
+            for (let f of this.argv) {
+                this.ts.addFile(f);
+            }
+            this.ts.typeset();
+            if (this.mainWindow)
+                this.mainWindow.webContents.send('html', this.ts.getHtml());
+        });
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
         });
@@ -100,21 +106,18 @@ class SrcPrintApp {
 
     private preparePdfWin(): Promise<PDFWindow> {
         return new Promise((resolve, reject) => {
-            var pdfWin: PDFWindow | null = null;
-            ipcMain.once("html", (event, html: string) => {
-                pdfWin = new PDFWindow(html);
-            });
-
-            if (this.mainWindow)
-                this.mainWindow.webContents.send("html");
-            else reject("mainWindow null");
+            var pdfWin: PDFWindow = new PDFWindow(this.ts.getHtml());
             ipcMain.once("pdfWinReady", (event, arg) => {
-                if (pdfWin)
-                    resolve(pdfWin);
-                else
-                    reject("pdfWin null");
+                resolve(pdfWin);
             });
         });
+    }
+
+    public addFile(path: string) {
+        this.ts.addFile(path);
+        this.ts.typeset();
+        if (this.mainWindow)
+            this.mainWindow.webContents.send('html', this.ts.getHtml());
     }
 }
 
@@ -123,3 +126,7 @@ const MyApp: SrcPrintApp = new SrcPrintApp(app);
 ipcMain.on('get_arg', (event, arg) => {
     event.sender.send('arg', MyApp.argv);
 })
+
+ipcMain.on('addFile', (event, arg: string) => {
+    MyApp.addFile(arg);
+});

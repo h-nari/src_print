@@ -11,7 +11,7 @@ class PDFWindow {
         this.window.on('closed', () => {
             this.window = null;
         });
-        this.window.loadURL(`file://${__dirname}/../pdf.html`).then(() => {
+        this.window.loadURL(`file://${__dirname}/../../pdf.html`).then(() => {
             if (this.window)
                 this.window.webContents.send('html', html);
         });

@@ -1,12 +1,12 @@
 const path = require('path');
 
-var main = {
+var app = {
     mode: 'development',
     target: 'electron-main',
-    entry: path.join(__dirname, 'src', 'main'),
+    entry: path.join(__dirname, 'src', 'main','app'),
     output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'app.js',
+        path: path.resolve(__dirname, 'dist','main')
     },
     node: {
         __dirname: false,
@@ -29,13 +29,13 @@ var main = {
     }
 };
 
-var renderer = {
+var main_win = {
     mode: 'development',
     target: 'electron-renderer',
-    entry: path.join(__dirname, 'src', 'renderer', 'app'),
+    entry: path.join(__dirname, 'src', 'renderer', 'mainWin'),
     output: {
-        filename: 'app.js',
-        path: path.resolve(__dirname, 'dist', 'scripts')
+        filename: 'mainWin.js',
+        path: path.resolve(__dirname, 'dist', 'renderer')
     },
     resolve: {
         extensions: ['.json', '.js', '.jsx', '.css', '.ts', '.tsx']
@@ -62,7 +62,7 @@ var pdf = {
     entry: path.join(__dirname, 'src', 'renderer', 'pdf'),
     output: {
         filename: 'pdf.js',
-        path: path.resolve(__dirname, 'dist', 'scripts')
+        path: path.resolve(__dirname, 'dist', 'renderer')
     },
     resolve: {
         extensions: ['.json', '.js', '.jsx', '.css', '.ts', '.tsx']
@@ -84,6 +84,5 @@ var pdf = {
 }
 
 module.exports = [
-    main, pdf, renderer
-
+    app, main_win, pdf
 ];

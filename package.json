@@ -2,7 +2,7 @@
   "name": "src_print",
   "version": "1.0.0",
   "description": "test pdf converter to print source programs",
-  "main": "dist/main.js",
+  "main": "dist/main/app.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "package": "./node_modules/.bin/electron-packager . srcPrint --platform=win32 --arch=x64 --icon ./src/icon/srcPrint128.ico --overwrite",
