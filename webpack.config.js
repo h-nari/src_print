@@ -51,6 +51,12 @@ var main_win = {
                 path.resolve(__dirname, 'src', 'renderer'),
                 path.resolve(__dirname, 'node_modules')
             ]
+        },{
+            test: /\.css$/,
+            loaders: ["style-loader", "css-loader?modules"]
+        },{
+            test: /\.(jpg|png)$/,
+            loaders: ['url-loader']
         }]
     },
     devtool: 'inline-source-map'

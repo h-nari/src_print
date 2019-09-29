@@ -8,7 +8,7 @@ import TypeSetter from "./typesetter";
 class SrcPrintApp {
     private mainWindow: BrowserWindow | null = null;
     private app: App;
-    private mainURL: string = `file://${__dirname}/../../index.html`
+    private mainURL: string = `file://${__dirname}/../../mainWin.html`
     private ts: TypeSetter = new TypeSetter();
     public argv: string[];
 
@@ -35,7 +35,6 @@ class SrcPrintApp {
     }
 
     private create() {
-        console.log('create');
         let opt: any = {
             width: 800,
             height: 1000,
@@ -84,6 +83,9 @@ class SrcPrintApp {
             print: async () => {
                 let pdfWin: PDFWindow = await this.preparePdfWin();
                 pdfWin.print();
+            },
+            refresh: () => {
+                this.refresh();
             }
         });
     }
@@ -110,17 +112,29 @@ class SrcPrintApp {
 
     public addFile(path: string) {
         this.ts.addFile(path);
-        this.ts.typeset();
-        if (this.mainWindow)
-            this.mainWindow.webContents.send('html', this.ts.getHtml());
+        this.refresh();
     }
 
     public addFiles(files: string[]) {
+        console.log("addFiles:", files);
         for (let file of files)
             this.ts.addFile(file);
+        this.refresh();
+    }
+
+    public resetFiles(files: string[]){
+        console.log("resetFiles:",files);
+        this.ts.resetFiles();
+        this.addFiles(files);
+    }
+
+    public refresh() {
         this.ts.typeset();
-        if (this.mainWindow)
+        if (this.mainWindow) {
             this.mainWindow.webContents.send('html', this.ts.getHtml());
+            this.mainWindow.webContents.send('pages', this.ts.getPages());
+            this.mainWindow.webContents.send('files', this.ts.getFiles());
+        }
     }
 }
 
@@ -128,4 +142,12 @@ const MyApp: SrcPrintApp = new SrcPrintApp(app);
 
 ipcMain.on('addFile', (event, arg: string) => {
     MyApp.addFile(arg);
+});
+
+ipcMain.on('reloaded', (event, arg) => {
+    MyApp.refresh();
+});
+
+ipcMain.on('change-filelist', (event, files: string[]) => {
+    MyApp.resetFiles(files);
 });

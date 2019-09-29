@@ -24,12 +24,21 @@ interface Settings {
     line_per_page: number
 }
 
+export interface FilePage {
+    fullpath: string,
+    name: string,
+    page: number,
+    pages: number
+}
+
 export default class TypeSetter {
     private setting: Settings;
     private files: string[];
     private html: string;
     private pages: Page[];
     private dateTimeStr: string;
+    private file_pages: FilePage[];
+    private textFilenamePat: RegExp;
 
     constructor() {
         this.setting = {
@@ -43,22 +52,61 @@ export default class TypeSetter {
         this.pages = [];
         this.html = "";
         this.dateTimeStr = "";
+        this.file_pages = [];
+        this.textFilenamePat = /\.(txt|js|ts|c|cpp|h|log|csv|json|html)$/;
+    }
+
+    resetFiles(){
+        this.files = [];
     }
 
     addFile(filename: string) {
-        this.files.push(filename);
+        console.log("addFile:", filename);
+        let stats = fs.statSync(filename);
+        if (stats.isDirectory())
+            this.addDirectory(filename);
+        else
+            this.files.push(filename);
     }
 
-    getHtml() {
+    addDirectory(dirname: string) {
+        let files = fs.readdirSync(dirname, { withFileTypes: true });
+
+        for (let dirent of files) {
+            let fullpath = path.join(dirname, dirent.name);
+            if (dirent.isDirectory())
+                this.addDirectory(fullpath);
+            else if (dirent.name.match(this.textFilenamePat))
+                this.addFile(fullpath);
+            else
+                console.log("skip:", fullpath);
+        }
+    }
+
+    getHtml(): string {
         return this.html;
+    }
+
+    getPages(): number {
+        return this.pages.length;
+    }
+
+    getFiles(): FilePage[] {
+        return this.file_pages;
     }
 
     typeset() {
         this.dateTimeStr = moment().format('YYYY/MM/DD(ddd) HH:MM:SS');
         this.pages = [];
         this.html = "";
-        for (let file of this.files)
+        this.file_pages = [];
+        let page0 = 0;
+        for (let file of this.files) {
             this.file2page(file);
+            let page = this.pages.length;
+            this.file_pages.push({ fullpath: file, name: path.basename(file), page: page0+1, pages: page - page0 });
+            page0 = page;
+        }
 
         let pageNo = 1;
         for (let p of this.pages) {
@@ -133,7 +181,7 @@ export default class TypeSetter {
                 ['div', { class: 'src-line' }, escape_html(line.text)]
             );
         }
-        return htmlGen('div', { class: 'page' },
+        return htmlGen('div', { class: 'page' , page: page.pageNo},
             ['div', { class: 'header' },
                 ['div', { class: 'datetime' }, this.dateTimeStr],
                 ['div', { class: 'filename' }, page.fileName]

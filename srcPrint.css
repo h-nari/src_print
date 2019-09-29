@@ -85,3 +85,49 @@ div.footer div.pageNo {
     font-style: oblique;
     flex: 1;
 }
+
+div#pageFrame {
+    height: 100%;
+    overflow: auto;
+    background: #f0f0f0;
+}
+
+div.file-page {
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+}
+
+div.file-page div {
+    display: inline-table;
+    border: solid 1px black;
+    padding: 2px 7px;
+    background: #fff;
+    overflow: hidden;
+}
+
+div.file-page.file-title div {
+    text-align: center !important;
+    background: lightgray;
+}
+
+div.file-page div:nth-child(1) {
+    flex: 5;
+    text-align: left;
+    overflow: hidden;
+}
+
+div.file-page div:nth-child(2) {
+    flex: 1;
+    text-align: right;
+}
+
+div.file-page div:nth-child(3) {
+    flex: 1;
+    text-align: right;
+}
+
+div#filesFrame {
+    height: 100%;
+    overflow: auto;
+}

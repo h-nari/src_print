@@ -12,7 +12,8 @@
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
                 ".", 
-                "n:\\01proj\\blog3\\udauda_blog3\\lib\\UdaudaBlog3\\Controller\\Access.pm"
+                "${workspaceFolder}\\src"
+//                "n:\\01proj\\blog3\\udauda_blog3\\lib\\UdaudaBlog3\\Controller\\Access.pm"
             ],
             "env": {
                 "NODE_ENV" : "debug"

@@ -5,15 +5,16 @@ function setAppMenu(options: any) {
         {
             label: "File",
             submenu: [
-                { label: 'Open File',   click: () => { options.openFile(); } },
-                { label: 'Print',       click: () => { options.print(); } },
+                { label: 'Open File', click: () => { options.openFile(); } },
+                { label: 'Print', click: () => { options.print(); } },
                 { type: 'separator' },
-                { label: 'Quit',        click: () => { options.appQuit(); } }
+                { label: 'Quit', click: () => { options.appQuit(); } }
             ]
         },
         {
             label: "View",
             submenu: [
+                { label: 'refresh', click: () => { options.refresh(); } },
                 { role: 'reload' },
                 { role: 'toggledevtools' }
             ]
