@@ -47,7 +47,7 @@ class SrcPrintApp {
             }
         };
         if (process.env.NODE_ENV == "debug") {
-            opt.x = 1920 + 5;
+            opt.x = 1920 * 2 + 5;
             opt.y = 5;
         }
         this.mainWindow = new BrowserWindow(opt);
@@ -122,8 +122,8 @@ class SrcPrintApp {
         this.refresh();
     }
 
-    public resetFiles(files: string[]){
-        console.log("resetFiles:",files);
+    public resetFiles(files: string[]) {
+        console.log("resetFiles:", files);
         this.ts.resetFiles();
         this.addFiles(files);
     }

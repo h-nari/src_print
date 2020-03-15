@@ -10,6 +10,9 @@ import GoldenLayout from "golden-layout";
 import htmlGen from "../main/htmlGen";
 import { FilePage } from "../main/typesetter";
 
+var totalPage : number = 0;
+var curPage: number = 1;
+
 document.ondragover = document.ondragleave = document.ondrop = function (e) {
     if (e.type == 'drop' && e.dataTransfer) {
         let files = e.dataTransfer.files;
@@ -24,10 +27,20 @@ document.ondragover = document.ondragleave = document.ondrop = function (e) {
 
 ipcRenderer.on('html', (event, html: string) => {
     $("#contents").html(html);
+    $("div#pageFrame").scroll((e) => {
+        currentPage();
+    });
+    $(".btn-first-page").on('click', ()=>{gotoPage(1);});
+    $(".btn-prev-page").on('click', ()=>{gotoPage(curPage - 1);});
+    $(".btn-next-page").on('click', ()=>{gotoPage(curPage + 1);});
+    $(".btn-last-page").on('click', ()=>{gotoPage(totalPage);});
+    currentPage();
 });
 
 ipcRenderer.on('pages', (event, pages: number) => {
     $("#pages").text(pages);
+    $("span#pages").text(pages);
+    totalPage = pages;
 });
 
 ipcRenderer.on('files', (event, file_pages: FilePage[]) => {
@@ -60,11 +73,11 @@ ipcRenderer.on('files', (event, file_pages: FilePage[]) => {
 
 function fileOrderChange(frame: Element) {
     let files: string[] = [];
-    let i,c,file;
+    let i, c, file;
     console.log(frame);
     for (i = 0; i < frame.childElementCount; i++) {
-        if(c = frame.children.item(i)){
-            if(file = c.getAttribute('file'))
+        if (c = frame.children.item(i)) {
+            if (file = c.getAttribute('file'))
                 files.push(file);
         }
     }
@@ -74,6 +87,8 @@ function fileOrderChange(frame: Element) {
 function gotoPage(n: number) {
     console.log("goto Page:", n);
 
+    if(n < 1) n = 1;
+    else if(n > totalPage) n = totalPage;
     let page = $(`#pageFrame div.page[page=${n}]`)[0];
     let offsetTop = page.offsetTop;
     let contents = page.parentElement;
@@ -83,6 +98,23 @@ function gotoPage(n: number) {
             frame.scrollTop = offsetTop;
     }
 }
+
+// 表示中のページ数を表示する
+function currentPage() {
+    let frame = $('div#pageFrame')[0];
+    let y = frame ? frame.scrollTop + frame.offsetTop: 0;
+    let pages = $('div#pageFrame div.page[page]').get();
+    let pn:number = 0;
+    
+    for (let page of pages) {
+        if (y >= page.offsetTop && y < page.offsetTop + page.offsetHeight){
+            pn = parseInt(page.attributes.page.value);
+        }
+        $('input.pageNum').val(pn);
+    }
+    curPage = pn;
+}
+
 
 $(function () {
     var config = {
@@ -129,8 +161,18 @@ $(function () {
         container.getElement().html(htmlGen('div', { id: "filesFrame" }, ['div', { id: "files" }, componentState.label]));
     });
     myLayout.registerComponent('pageImages', function (container: any, componentState: any) {
-        container.getElement().html(htmlGen('div', { id: "pageFrame" },
-            ['div', { id: "contents" }]));
+        container.getElement().html(htmlGen('div', { id: 'pageFrame0' },
+            ['div', { class: 'button-box page-navigation' },
+                ['button', {class: 'btn-first-page'},['span', { class: 'material-icons' }, 'first_page']],
+                ['button', {class: 'btn-prev-page'},['span', { class: 'material-icons' }, 'chevron_left']],
+                ['input', { class: 'pageNum', size: 3 }],
+                ['span', '/'],
+                ['span', { id: 'pages' }, 'Total'],
+                ['button', {class: 'btn-next-page'}, ['span', { class: 'material-icons' }, 'chevron_right']],
+                ['button', {class: 'btn-last-page'}, ['span', { class: 'material-icons' }, 'last_page']]
+            ],
+            ['div', { id: "pageFrame" },
+                ['div', { id: "contents" }]]));
     });
 
     myLayout.init();

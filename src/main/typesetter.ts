@@ -62,11 +62,15 @@ export default class TypeSetter {
 
     addFile(filename: string) {
         console.log("addFile:", filename);
+        try {
         let stats = fs.statSync(filename);
         if (stats.isDirectory())
             this.addDirectory(filename);
         else
             this.files.push(filename);
+        } catch(err) {
+            console.log(filename,' not found.');
+        }
     }
 
     addDirectory(dirname: string) {

@@ -12,6 +12,7 @@
             "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\electron",
             "args": [
                 ".", 
+//                "${workspaceFolder}\\test.txt"
                 "${workspaceFolder}\\src"
 //                "n:\\01proj\\blog3\\udauda_blog3\\lib\\UdaudaBlog3\\Controller\\Access.pm"
             ],

@@ -86,10 +86,14 @@ div.footer div.pageNo {
     flex: 1;
 }
 
+div#pageFrame0 {
+    height: 100%;
+}
+
 div#pageFrame {
     height: 100%;
     overflow: auto;
-    background: #f0f0f0;
+    background: #fff;
 }
 
 div.file-page {
@@ -130,4 +134,32 @@ div.file-page div:nth-child(3) {
 div#filesFrame {
     height: 100%;
     overflow: auto;
+}
+
+div.page-navigation {
+}
+
+div.page-navigation button {
+    vertical-align: bottom;
+    display: inline-table;
+    margin: 3px;
+    padding: 0px;
+} 
+
+div.page-navigation input {
+    vertical-align: bottom;
+    display: inline-table;
+    padding: 5px;
+    margin:  3px;
+}
+
+div.page-navigation > span {
+    vertical-align: bottom;
+    display: inline-table;
+    padding: 1px;
+    margin: 3px;
+}
+
+button span.material-icons {
+    padding: 0px;
 }
