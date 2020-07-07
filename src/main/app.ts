@@ -47,7 +47,7 @@ class SrcPrintApp {
             }
         };
         if (process.env.NODE_ENV == "debug") {
-            opt.x = 1920 * 2 + 5;
+            opt.x = 1920 * 1 + 5;
             opt.y = 5;
         }
         this.mainWindow = new BrowserWindow(opt);
